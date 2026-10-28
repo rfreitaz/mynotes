@@ -50,6 +50,9 @@ export class App implements OnInit {
       }));
     }
   }
+  saveStatus: "editing" | "saving" | "saved" = "editing";
+
+  private saveStatusTimeout?: ReturnType<typeof setTimeout>;
 
   get filteredNotes(): Note[] {
     const query = this.searchTerm.toLowerCase().trim();
@@ -98,6 +101,12 @@ export class App implements OnInit {
     this.draftCategory = note.category ?? "Pessoal";
   }
 
+  autoSaveNote(): void {
+    if (!this.draftTitle.trim()) {
+      return;
+    }
+    this.saveNote();
+  }
   saveNote(): void {
     const title = this.draftTitle.trim();
 
@@ -133,7 +142,16 @@ export class App implements OnInit {
       this.selectedNoteId = note.id;
     }
 
+    this.saveStatus = "saving";
     this.persistNotes();
+
+    if (this.saveStatusTimeout) {
+      clearTimeout(this.saveStatusTimeout);
+    }
+
+    this.saveStatusTimeout = setTimeout(() => {
+      this.saveStatus = "saved";
+    }, 300);
   }
 
   deleteNote(): void {

@@ -82,7 +82,19 @@
       <span class="editor-label">
         {{ selectedNoteId === null ? "NEW NOTE" : "EDITING NOTE" }}
       </span>
-
+      <span
+        class="save-status"
+        [class.is-saving]="saveStatus === 'saving'"
+        [class.is-saved]="saveStatus === 'saved'"
+      >
+        @if (saveStatus === "saving") {
+        <span>◌ A guardar…</span>
+        } @else if (saveStatus === "saved") {
+        <span>✓ Guardado</span>
+        } @else {
+        <span>A editar</span>
+        }
+      </span>
       <div class="editor-actions">
         @if (selectedNoteId !== null) {
         <button class="favorite-button" (click)="toggleFavorite()">
@@ -99,6 +111,7 @@
       type="text"
       placeholder="Note title..."
       [(ngModel)]="draftTitle"
+      (ngModelChange)="autoSaveNote()"
     />
 
     <select class="category-select" [(ngModel)]="draftCategory">
@@ -111,6 +124,7 @@
       class="content-input"
       placeholder="Start writing your thoughts..."
       [(ngModel)]="draftContent"
+      (ngModelChange)="autoSaveNote()"
     ></textarea>
 
     <div class="editor-footer">
