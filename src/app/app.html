@@ -20,6 +20,34 @@
       [(ngModel)]="searchTerm"
     />
 
+    <button
+      class="favorites-filter"
+      [class.active]="showFavoritesOnly"
+      (click)="showFavoritesOnly = !showFavoritesOnly"
+    >
+      ★ {{ showFavoritesOnly ? 'Show all notes' : 'Favorites only' }}
+    </button>
+
+    <div class="category-filters">
+      <button
+        class="category-filter"
+        [class.active]="selectedCategory === 'Todas'"
+        (click)="selectedCategory = 'Todas'"
+      >
+        Todas
+      </button>
+
+      @for (category of categories; track category) {
+      <button
+        class="category-filter"
+        [class.active]="selectedCategory === category"
+        (click)="selectedCategory = category"
+      >
+        {{ category }}
+      </button>
+      }
+    </div>
+
     <div class="notes-list">
       @for (note of filteredNotes; track note.id) {
       <button
@@ -27,10 +55,20 @@
         [class.selected]="selectedNoteId === note.id"
         (click)="selectNote(note)"
       >
-        <strong>{{ note.title }}</strong>
+        <div class="note-card-heading">
+          <strong>{{ note.title }}</strong>
+
+          <span class="favorite-star" [class.is-favorite]="note.favorite">
+            {{ note.favorite ? '★' : '☆' }}
+          </span>
+        </div>
+
+        <span class="category-tag"> {{ note.category || 'Pessoal' }} </span>
+
         <span class="note-preview">
-          {{ note.content || "No additional text" }}
+          {{ note.content || 'No additional text' }}
         </span>
+
         <small>{{ note.updatedAt | date: "dd MMM, HH:mm" }}</small>
       </button>
       } @empty {
@@ -45,9 +83,15 @@
         {{ selectedNoteId === null ? "NEW NOTE" : "EDITING NOTE" }}
       </span>
 
-      @if (selectedNoteId !== null) {
-      <button class="delete-button" (click)="deleteNote()">Delete</button>
-      }
+      <div class="editor-actions">
+        @if (selectedNoteId !== null) {
+        <button class="favorite-button" (click)="toggleFavorite()">
+          {{ getSelectedNote()?.favorite ? '★ Favorita' : '☆ Favoritar' }}
+        </button>
+
+        <button class="delete-button" (click)="deleteNote()">Delete</button>
+        }
+      </div>
     </div>
 
     <input
@@ -57,6 +101,12 @@
       [(ngModel)]="draftTitle"
     />
 
+    <select class="category-select" [(ngModel)]="draftCategory">
+      @for (category of categories; track category) {
+      <option [value]="category">{{ category }}</option>
+      }
+    </select>
+
     <textarea
       class="content-input"
       placeholder="Start writing your thoughts..."
@@ -65,6 +115,7 @@
 
     <div class="editor-footer">
       <span>Your notes are saved in this browser.</span>
+
       <button class="save-button" (click)="saveNote()">Save note</button>
     </div>
   </section>

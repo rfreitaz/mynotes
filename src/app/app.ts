@@ -9,6 +9,8 @@ interface Note {
   title: string;
   content: string;
   updatedAt: string;
+  favorite: boolean;
+  category: string;
 }
 
 @Component({
@@ -25,6 +27,10 @@ export class App implements OnInit {
   searchTerm = "";
   draftTitle = "";
   draftContent = "";
+  draftCategory = "Pessoal";
+  categories = ["Pessoal", "Trabalho", "Estudo", "Outros"];
+  showFavoritesOnly = false;
+  selectedCategory = "Todas";
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
@@ -37,6 +43,11 @@ export class App implements OnInit {
           this.notes = [];
         }
       }
+      this.notes = this.notes.map((note) => ({
+        ...note,
+        favorite: note.favorite ?? false,
+        category: note.category ?? "Pessoal",
+      }));
     }
   }
 
@@ -44,24 +55,47 @@ export class App implements OnInit {
     const query = this.searchTerm.toLowerCase().trim();
 
     return this.notes
-      .filter(
-        (note) =>
+      .filter((note) => {
+        const matchesSearch =
           note.title.toLowerCase().includes(query) ||
-          note.content.toLowerCase().includes(query),
-      )
+          note.content.toLowerCase().includes(query);
+
+        const matchesFavorites =
+          !this.showFavoritesOnly || note.favorite === true;
+
+        const matchesCategory =
+          this.selectedCategory === "Todas" ||
+          (note.category || "Pessoal") === this.selectedCategory;
+
+        return matchesSearch && matchesFavorites && matchesCategory;
+      })
       .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
+  }
+
+  getSelectedNote(): Note | undefined {
+    return this.notes.find((note) => note.id === this.selectedNoteId);
+  }
+
+  toggleFavorite(): void {
+    const note = this.getSelectedNote();
+    if (!note) return;
+
+    note.favorite = !note.favorite;
+    this.persistNotes();
   }
 
   newNote(): void {
     this.selectedNoteId = null;
     this.draftTitle = "";
     this.draftContent = "";
+    this.draftCategory = "Pessoal";
   }
 
   selectNote(note: Note): void {
     this.selectedNoteId = note.id;
     this.draftTitle = note.title;
     this.draftContent = note.content;
+    this.draftCategory = note.category ?? "Pessoal";
   }
 
   saveNote(): void {
@@ -83,6 +117,7 @@ export class App implements OnInit {
         existingNote.title = title;
         existingNote.content = this.draftContent;
         existingNote.updatedAt = now;
+        existingNote.category = this.draftCategory;
       }
     } else {
       const note: Note = {
@@ -90,6 +125,8 @@ export class App implements OnInit {
         title,
         content: this.draftContent,
         updatedAt: now,
+        favorite: false,
+        category: this.draftCategory,
       };
 
       this.notes.push(note);
