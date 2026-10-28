@@ -1,0 +1,241 @@
+:host {
+    display: block;
+    min-height: 100vh;
+    background: #f6f7fb;
+    color: #25283b;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.workspace {
+    display: grid;
+    grid-template-columns: 320px minmax(0, 1fr);
+    gap: 24px;
+    max-width: 1440px;
+    min-height: calc(100vh - 87px);
+    margin: 0 auto;
+    padding: 32px 5%;
+}
+
+.sidebar,
+.editor {
+    min-width: 0;
+    background: #ffffff;
+    border: 1px solid #e8eaf0;
+    border-radius: 16px;
+}
+
+.sidebar {
+    padding: 22px;
+}
+
+.sidebar-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.sidebar-heading h2 {
+    margin: 0 0 5px;
+    font-size: 21px;
+}
+
+.sidebar-heading p {
+    margin: 0;
+    color: #8a8fa3;
+    font-size: 13px;
+}
+
+.new-button {
+    width: 42px;
+    height: 42px;
+    border: 0;
+    border-radius: 12px;
+    background: #6258e8;
+    color: white;
+    font-size: 27px;
+    cursor: pointer;
+}
+
+.search-input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #e8eaf0;
+    border-radius: 10px;
+    outline-color: #6258e8;
+    font: inherit;
+}
+
+.notes-list {
+    display: grid;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.note-card {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #eceef4;
+    border-radius: 12px;
+    background: white;
+    text-align: left;
+    cursor: pointer;
+}
+
+.note-card.selected {
+    border-color: #6258e8;
+    background: #f5f4ff;
+}
+
+.note-card strong {
+    overflow-wrap: anywhere;
+    font-size: 14px;
+}
+
+.note-preview {
+    display: -webkit-box;
+    overflow: hidden;
+    color: #777d91;
+    font-size: 13px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.note-card small {
+    color: #999db0;
+    font-size: 11px;
+}
+
+.empty-list {
+    color: #858a9c;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.editor {
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+}
+
+.editor-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 28px;
+}
+
+.editor-label {
+    color: #777d91;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+.delete-button {
+    padding: 8px 12px;
+    border: 1px solid #f0d9dc;
+    border-radius: 8px;
+    background: white;
+    color: #c53f50;
+    cursor: pointer;
+}
+
+.title-input {
+    width: 100%;
+    padding: 8px 0 18px;
+    border: 0;
+    border-bottom: 1px solid #eceef4;
+    outline: none;
+    color: #25283b;
+    font: inherit;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.content-input {
+    flex: 1;
+    width: 100%;
+    min-height: 300px;
+    margin-top: 20px;
+    padding: 8px 0;
+    resize: vertical;
+    border: 0;
+    outline: none;
+    color: #454a5d;
+    font: inherit;
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+.editor-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #eceef4;
+}
+
+.editor-footer span {
+    color: #8a8fa3;
+    font-size: 12px;
+}
+
+.save-button {
+    padding: 12px 20px;
+    border: 0;
+    border-radius: 10px;
+    background: #6258e8;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.save-button:hover,
+.new-button:hover {
+    background: #5046d4;
+
+}
+
+@media (max-width: 760px) {
+    .workspace {
+        grid-template-columns: 1fr;
+        gap: 18px;
+        padding: 20px 4%;
+    }
+
+    .sidebar {
+        padding: 18px;
+    }
+
+    .editor {
+        min-height: 440px;
+        padding: 22px;
+    }
+
+    .title-input {
+        font-size: 25px;
+    }
+
+    .editor-footer {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .save-button {
+        width: 100%;
+    }
+}

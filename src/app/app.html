@@ -1,0 +1,71 @@
+<app-header></app-header>
+
+<main class="workspace">
+  <aside class="sidebar">
+    <div class="sidebar-heading">
+      <div>
+        <h2>My notes</h2>
+        <p>{{ filteredNotes.length }} notes</p>
+      </div>
+
+      <button class="new-button" (click)="newNote()" aria-label="Create note">
+        +
+      </button>
+    </div>
+
+    <input
+      class="search-input"
+      type="search"
+      placeholder="Search your notes..."
+      [(ngModel)]="searchTerm"
+    />
+
+    <div class="notes-list">
+      @for (note of filteredNotes; track note.id) {
+      <button
+        class="note-card"
+        [class.selected]="selectedNoteId === note.id"
+        (click)="selectNote(note)"
+      >
+        <strong>{{ note.title }}</strong>
+        <span class="note-preview">
+          {{ note.content || "No additional text" }}
+        </span>
+        <small>{{ note.updatedAt | date: "dd MMM, HH:mm" }}</small>
+      </button>
+      } @empty {
+      <p class="empty-list">No notes found. Create your first note!</p>
+      }
+    </div>
+  </aside>
+
+  <section class="editor">
+    <div class="editor-toolbar">
+      <span class="editor-label">
+        {{ selectedNoteId === null ? "NEW NOTE" : "EDITING NOTE" }}
+      </span>
+
+      @if (selectedNoteId !== null) {
+      <button class="delete-button" (click)="deleteNote()">Delete</button>
+      }
+    </div>
+
+    <input
+      class="title-input"
+      type="text"
+      placeholder="Note title..."
+      [(ngModel)]="draftTitle"
+    />
+
+    <textarea
+      class="content-input"
+      placeholder="Start writing your thoughts..."
+      [(ngModel)]="draftContent"
+    ></textarea>
+
+    <div class="editor-footer">
+      <span>Your notes are saved in this browser.</span>
+      <button class="save-button" (click)="saveNote()">Save note</button>
+    </div>
+  </section>
+</main>

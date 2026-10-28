@@ -1,0 +1,41 @@
+:host {
+    display: block;
+}
+
+.topbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 22px 5%;
+    background: #ffffff;
+    border-bottom: 1px solid #e8eaf0;
+}
+
+.brand-icon {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: #6258e8;
+    color: white;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.brand-text {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.brand-text strong {
+    color: #20243a;
+    font-size: 20px;
+}
+
+.brand-text span {
+    color: #8a8fa3;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+}
