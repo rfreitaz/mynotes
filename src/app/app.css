@@ -758,3 +758,94 @@ button:focus-visible {
 .save-status.is-saved {
     color: #27845b;
 }
+
+/* Tema claro */
+.app-shell {
+    --app-bg: #f5f7fb;
+    --panel-bg: #ffffff;
+    --input-bg: #ffffff;
+    --text-color: #202534;
+    --muted-color: #777f90;
+    --border-color: #e3e7ef;
+    --hover-bg: #f0f3f9;
+    --selected-bg: #e9efff;
+
+    min-height: 100vh;
+    background: var(--app-bg);
+    color: var(--text-color);
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+}
+
+/* Tema escuro */
+.app-shell.dark-theme {
+    --app-bg: #151821;
+    --panel-bg: #1e2330;
+    --input-bg: #252b39;
+    --text-color: #edf0f7;
+    --muted-color: #a0a8b9;
+    --border-color: #353c4d;
+    --hover-bg: #2a3040;
+    --selected-bg: #303b59;
+}
+
+/* Fundo e texto principais */
+.app-shell .workspace,
+.app-shell .sidebar,
+.app-shell .editor {
+    background-color: var(--app-bg);
+    color: var(--text-color);
+}
+
+/* Campos de texto */
+.app-shell input,
+.app-shell textarea,
+.app-shell select {
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+/* Cartões de notas */
+.app-shell .note-card {
+    background-color: var(--panel-bg);
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+/* Elementos secundários */
+.app-shell .note-preview,
+.app-shell .note-card small,
+.app-shell .editor-label,
+.app-shell .editor-footer {
+    color: var(--muted-color);
+}
+
+/* Hover e nota selecionada */
+.app-shell .note-card:hover,
+.app-shell .category-filter:hover,
+.app-shell .favorites-filter:hover {
+    background-color: var(--hover-bg);
+}
+
+.app-shell .note-card.selected {
+    background-color: var(--selected-bg);
+    border-color: var(--border-color);
+}
+
+/* Botão do tema */
+.app-shell .theme-toggle {
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--panel-bg);
+    color: var(--text-color);
+    cursor: pointer;
+    font: inherit;
+    font-size: 13px;
+}
+
+.app-shell .theme-toggle:hover {
+    background-color: var(--hover-bg);
+}

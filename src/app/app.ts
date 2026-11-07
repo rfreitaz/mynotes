@@ -31,9 +31,13 @@ export class App implements OnInit {
   categories = ["Pessoal", "Trabalho", "Estudo", "Outros"];
   showFavoritesOnly = false;
   selectedCategory = "Todas";
+  isDarkMode = false;
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
+      const savedTheme = localStorage.getItem("my-notes-theme");
+      this.isDarkMode = savedTheme === "dark";
+
       const savedNotes = localStorage.getItem("my-notes");
 
       if (savedNotes) {
@@ -43,6 +47,7 @@ export class App implements OnInit {
           this.notes = [];
         }
       }
+
       this.notes = this.notes.map((note) => ({
         ...note,
         favorite: note.favorite ?? false,
@@ -170,6 +175,16 @@ export class App implements OnInit {
   private persistNotes(): void {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.setItem("my-notes", JSON.stringify(this.notes));
+    }
+  }
+  toggleTheme(): void {
+    this.isDarkMode = !this.isDarkMode;
+
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem(
+        "my-notes-theme",
+        this.isDarkMode ? "dark" : "light",
+      );
     }
   }
 }
